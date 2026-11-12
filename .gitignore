@@ -1,0 +1,4 @@
+data/statcast_*.csv.gz
+__pycache__/
+*.pyc
+.DS_Store

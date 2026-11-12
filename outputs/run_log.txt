@@ -1,0 +1,153 @@
+{
+  "filters": {
+    "starts_total": 9718,
+    "starts_excluded": 1277,
+    "excluded_by_reason": {
+      "opener_bulk": 416,
+      "gap_after": 318,
+      "return_after_gap": 316,
+      "season_ended_early": 227
+    }
+  },
+  "H1_velo_drop": {
+    "n": 52,
+    "r_2025_2026": 0.736591900338442,
+    "ci95": [
+      0.5637554374383207,
+      0.8507695838057056
+    ],
+    "p": 4.835510714170484e-10,
+    "split_half_reliability_2026": 0.8406496894624389,
+    "mean_2025": -0.3697896928304725,
+    "mean_2026": -0.39274749172073425,
+    "sd_2025": 0.5750066294286441,
+    "confirmed": true
+  },
+  "H2_tto3_penalty": {
+    "n": 101,
+    "r_2025_2026": 0.05082652053877623,
+    "ci95": [
+      -0.149364001181707,
+      0.2397884145264314
+    ],
+    "p": 0.6137213857899887,
+    "split_half_reliability_2026": 0.03732077595714612,
+    "mean_2025": 0.028918561812136534,
+    "mean_2026": 0.026612074437708112,
+    "sd_2025": 0.04838597496742925,
+    "confirmed": false
+  },
+  "H3_decision": {
+    "velo_drop_2026": {
+      "n": 52,
+      "mae": {
+        "league": 0.44475668121665907,
+        "individual": 0.32362258048942727,
+        "shrunk": 0.30667525582834504
+      },
+      "gain_vs_league": {
+        "individual": 0.2723603845497319,
+        "shrunk": 0.3104650952304614
+      },
+      "gain_ci95": {
+        "individual": [
+          0.022942515654547066,
+          0.4544708490851178
+        ],
+        "shrunk": [
+          0.0737355437722609,
+          0.4869683479865597
+        ]
+      },
+      "p_one_sided": {
+        "individual": 0.017,
+        "shrunk": 0.006
+      },
+      "confirmed": {
+        "individual": true,
+        "shrunk": true
+      }
+    },
+    "tto3_penalty_2026": {
+      "n": 52,
+      "mae": {
+        "league": 0.03734903004102798,
+        "individual": 0.05036525377371629,
+        "shrunk": 0.03734903004102798,
+        "ols_velo_drop": 0.038006009966663624
+      },
+      "gain_vs_league": {
+        "individual": -0.34850232304265916,
+        "shrunk": 0.0,
+        "ols_velo_drop": -0.017590280789459678
+      },
+      "gain_ci95": {
+        "individual": [
+          -0.6387126332613471,
+          -0.08821994957119406
+        ],
+        "shrunk": [
+          0.0,
+          0.0
+        ],
+        "ols_velo_drop": [
+          -0.05269392275461403,
+          0.018678256878172782
+        ]
+      },
+      "p_one_sided": {
+        "individual": 0.9956,
+        "shrunk": 1.0,
+        "ols_velo_drop": 0.8334
+      },
+      "confirmed": {
+        "individual": false,
+        "shrunk": false,
+        "ols_velo_drop": false
+      }
+    }
+  },
+  "H4_live_velo": {
+    "n_pa": 42033,
+    "n_pitchers": 250,
+    "xwoba_per_mph_lost": 0.007042913104069068,
+    "ci95": [
+      0.0023451535721737676,
+      0.011740672635964369
+    ],
+    "p_two_sided": 0.00329920261637654,
+    "share_pa_live_drop_le_minus1": 0.20372088597054694,
+    "confirmed": true
+  },
+  "bh_adjusted_p": {
+    "H1_velo_drop": 3.8684085713363875e-09,
+    "H2_tto3_penalty": 0.9819542172639819,
+    "H3_velo_drop_2026_individual": 0.034,
+    "H3_velo_drop_2026_shrunk": 0.016,
+    "H3_tto3_penalty_2026_individual": 1.0,
+    "H3_tto3_penalty_2026_shrunk": 1.0,
+    "H3_tto3_penalty_2026_ols_velo_drop": 1.0,
+    "H4_live_velo": 0.01319681046550616
+  },
+  "application": {
+    "n_starters": 144,
+    "league_mean_drop": -0.44945860659558967,
+    "early_fade_cut": -0.7991237095922341,
+    "holds_velo_cut": -0.057947093273217454,
+    "per_start_reliability": 0.2736887189152982
+  },
+  "profile_groups_out_of_sample": {
+    "groups_defined_on": "2025 velo_drop (bottom/top 20%)",
+    "late_velo_2026": {
+      "early_fade": -0.9217163227744716,
+      "holds_velo": 0.13263560487781806,
+      "league_typical": -0.3369861885738576
+    },
+    "gap_fade_vs_hold_mph": 1.0543519276522897,
+    "n_pitchers": {
+      "early_fade": 17,
+      "holds_velo": 16,
+      "league_typical": 48
+    }
+  }
+}
