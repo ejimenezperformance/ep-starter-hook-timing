@@ -3,7 +3,7 @@
 Descarga datos de Statcast (solo temporada regular) para las temporadas del repo.
 
 Usage / Uso:
-    python src/pull_data.py            # 2025 and 2026
+    python src/pull_data.py            # 2023-2026
     python src/pull_data.py 2026       # one season
 
 Output: data/statcast_<season>.csv.gz  (not committed; see .gitignore)
@@ -36,6 +36,8 @@ COLUMNS = [
 ]
 
 SEASON_WINDOWS = {
+    2023: (date(2023, 3, 25), date(2023, 10, 2)),
+    2024: (date(2024, 3, 15), date(2024, 10, 1)),
     2025: (date(2025, 3, 15), date(2025, 10, 1)),
     2026: (date(2026, 3, 15), date(2026, 10, 5)),
 }
@@ -83,6 +85,6 @@ def pull_season(season: int, chunk_days: int = 2, workers: int = 4) -> Path:
 
 
 if __name__ == "__main__":
-    seasons = [int(s) for s in sys.argv[1:]] or [2025, 2026]
+    seasons = [int(s) for s in sys.argv[1:]] or [2023, 2024, 2025, 2026]
     for s in seasons:
         pull_season(s)

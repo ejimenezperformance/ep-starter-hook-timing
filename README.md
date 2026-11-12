@@ -1,6 +1,6 @@
 # ep-starter-hook-timing
 
-**Emerson Performance · Starter fatigue and hook timing · Statcast 2025–2026**
+**Emerson Performance · Starter fatigue and hook timing · Statcast 2023–2026**
 
 [English](#english) · [Español](#español)
 
@@ -11,116 +11,125 @@
 ### Headline
 
 **A starter's in-game velocity fade is a stable personal trait. His third-time-through split is not.**
-Across 52 MLB starters, the late-start fastball velo drop in 2025 predicted the 2026 drop (r = 0.74). Each starter's own 2025 profile cut the 2026 prediction error by 31% compared with the league-average rule (better in all 8 sensitivity settings, but confirmed in only 3). The third-time-through-the-order (TTO3) xwOBA penalty, the split many hook decisions lean on, did not repeat (r = 0.05). Using a starter's own TTO3 split made predictions 35% *worse* than the league average.
+Across three season pairs (2023→24, 2024→25, 2025→26; 176 pairs, 99 MLB starters), the late-start fastball velo drop repeated year to year (r = 0.79), and each pair alone gave 0.74–0.83. Using each starter's own fade profile cut next-season prediction error by **39%** compared with the league-average rule. The third-time-through-the-order (TTO3) xwOBA penalty did not repeat (r = 0.07, 306 pairs). Using a starter's own TTO3 split made predictions 32% *worse* than the league average.
 
-**Decision rule:** pull starters by the league times-through-the-order baseline plus **live fastball velo against that pitcher's own expected curve**. Do not use pitcher-specific TTO3 splits.
+**Decision rule:**
+- **Do not** use pitcher-specific TTO3 splits for hook decisions. Use the league times-through pattern.
+- **Do** use each starter's own fade profile to plan: how deep he can go before losing velo, bullpen coverage, and offseason work.
+- **In game,** treat fastball velo lost against the first 25 pitches of the same start as a warning signal. Each mph lost came with +0.005 xwOBA: real, but small.
 
 | Test | Result | Label |
 |---|---|---|
-| H1 · Late velo drop repeats 2025→2026 | r = 0.74 (95% CI 0.56–0.85), n = 52 | `CONFIRMED` |
-| H2 · TTO3 xwOBA penalty repeats 2025→2026 | r = 0.05 (95% CI −0.15–0.24), n = 101 | Not confirmed |
-| H3a · Own 2025 velo profile predicts 2026 velo drop better than league rule | MAE 0.31 vs 0.44 mph (−31%, CI −7% to −49%) | `CONFIRMED` in base spec (moderate robustness, see sensitivity) |
-| H3b · Own 2025 TTO3 split predicts 2026 TTO3 split better than league rule | MAE 0.050 vs 0.037 (35% worse) | Not confirmed |
-| H3c · 2025 velo profile predicts 2026 TTO3 split | 2% worse than league rule | Not confirmed |
-| H4 · Live velo drop comes with worse contact, same pitcher | +0.007 xwOBA per mph lost (CI 0.002–0.012), 42,033 PA | `CONFIRMED` (small; fragile, see sensitivity) |
+| H1 · Late velo drop repeats year to year | r = 0.79 (95% CI 0.71–0.84); 176 pairs, 99 starters | `CONFIRMED` |
+| H2 · TTO3 xwOBA penalty repeats year to year | r = 0.07 (95% CI −0.03–0.17); 306 pairs, 162 starters | Not confirmed |
+| H3a · Own profile predicts next-season velo drop better than league rule | MAE 0.30 vs 0.50 mph (−39%, CI −28% to −48%) | `CONFIRMED` |
+| H3b · Own TTO3 split predicts next-season TTO3 split better than league rule | 32% worse (CI 18% to 48% worse) | Not confirmed |
+| H3c · Velo fade profile predicts next-season TTO3 split | 0.8% worse than league rule | Not confirmed |
+| H4 · Live velo drop comes with worse contact, same pitcher-season | +0.0054 xwOBA per mph lost (CI 0.0030–0.0077); 159,938 PA | `CONFIRMED` (small) |
+| H5 · An *unusual* drop for that pitcher costs more than his *usual* drop | Difference −0.0005 xwOBA/mph (CI −0.022 to +0.021) | Inconclusive (underpowered, see below) |
 
-All p-values are Benjamini-Hochberg adjusted across the 8 tests.
+All p-values are Benjamini-Hochberg adjusted across the 9 tests. Bootstrap CIs resample whole pitchers, because a starter can appear in several season pairs.
 
 ![Stability](figures/fig1_stability.png)
 
 ![Profile curves](figures/fig2_profile_curves.png)
 
-The groups were set **only with 2025 data** (bottom and top 20% of velo fade). In 2026 they still separated by **1.1 mph** late in the start: early faders −0.92 mph, league-typical −0.34 mph, velo holders +0.13 mph.
+Groups set **only with 2025 data** (bottom and top 20% of velo fade) still separated by **1.1 mph** late in 2026 starts: early faders −0.92 mph, league-typical −0.34 mph, velo holders +0.13 mph.
 
 ### Decision question
 
-Should a club use each starter's own 2025 fatigue profile to decide when to pull him in 2026, or the league-average rule?
+Should a club use each starter's own fatigue profile to plan and make hook decisions, or the league-average rule?
 
 ### What this means for a front office
 
-1. **Stop using pitcher-specific TTO3 splits.** Split-half reliability inside one season is 0.04, which means it is almost pure noise. The league TTO pattern is real (2026 xwOBA: .302 → .319 → .333 for the 1st, 2nd and 3rd time through), but it is a league effect, not a trait of each pitcher. This lines up with Brill, Deshpande & Wyner (2023), who found that pitcher performance declines continuously across the game rather than jumping at the third time through.
-2. **Use each starter's own velo curve as his "normal."** A −0.9 mph late drop is normal for an early fader and a red flag for a velo holder. The profile is stable (split-half reliability 0.84) and reaches about 0.89 reliability after roughly 23 starts that reach 76+ pitches.
-3. **Treat live velo as a signal, not a trigger.** Every mph lost (measured before the PA starts) came with +0.007 xwOBA in the same pitcher. That is real but modest: a 2 mph drop is worth about half of the league TTO3 penalty (~.030).
-4. **What this does NOT show:** that early faders get hit harder the third time through. A 2025 velo fade did not predict the 2026 TTO3 split (H3c). That outcome is too noisy at the pitcher level to predict with anything.
+1. **Stop using pitcher-specific TTO3 splits.** Their within-season reliability is 0.04–0.21, so they are mostly noise. The league pattern is real (xwOBA ~.302–.310 the first time through and ~.330–.342 the third, 2023–2026), but it is a league effect, not a trait of each pitcher. This fits Brill, Deshpande & Wyner (2023), who found that pitcher performance declines continuously across the game instead of jumping at the third time through.
+2. **The velo fade is a trait you can plan around.** Within-season reliability is 0.84–0.92. After about 23 starts that reach 76+ pitches, a starter's shrunk profile reaches ~0.89 reliability. It predicts next season's fade 39% better than the league average.
+3. **Live velo is a signal, not a trigger.** Each mph lost (measured before the PA starts, against the same start's first 25 pitches) came with +0.0054 xwOBA in the same pitcher-season. A 2 mph drop is worth about a third of the league TTO3 penalty.
+4. **What this does NOT show:**
+   - that early faders get hit harder the third time through (H3c);
+   - that a drop which is *usual* for a pitcher is harmless while an *unusual* one is costly (H5). That rule sounds right, but these data cannot separate the two (see H5).
+
+### H5: why it is inconclusive, not negative
+
+H5 splits each live drop into the part the pitcher **usually** has at that pitch count (his previous-season curve) and the **unusual** remainder, then compares the xwOBA cost per mph of each part. The unusual part had a clear cost (+0.0049, CI 0.0018–0.0080). The usual part's cost could be anything from −0.016 to +0.027, so the comparison is open.
+
+The synthetic power check shows why. Even when the simulated truth is "only the unusual part costs," the test points the right way but cannot reach significance at this sample size. **Comparing live velo with the pitcher's own curve stays as `INTERPRETATION`.** It needs pitch-tracking data at the practice level, or more seasons, to test.
 
 ### Comparison line (league rule)
 
-Without individual information, the best guess for any starter is the league average: a −0.37 to −0.39 mph fade from pitches 1–25 to pitches 76–100, plus the league TTO pattern. Every model is judged against that rule using leave-one-pitcher-out cross-validation.
+Without individual information, the best guess for any starter is the league average: about a −0.38 mph fade from pitches 1–25 to pitches 76–100, plus the league TTO pattern. Every model is judged against that rule with leave-one-pitcher-out cross-validation (all of a pitcher's pairs are held out together).
 
 ### Application: offseason plan for early faders
 
 `INTERPRETATION`, not tested in this repo.
 
-Lab studies link late-game velo loss to changes in the delivery: less shoulder external rotation and less knee flexion at release (Murray et al., 2001), a more upright trunk as fatigue approaches (Escamilla et al., 2007), and selective strength loss in shoulder internal rotation, flexion and adduction after ~99 pitches (Mullaney et al., 2005). For the 29 starters classified as early faders (`outputs/starter_fatigue_profiles_2025_2026.csv`):
+Lab studies link late-game velo loss to changes in the delivery: less shoulder external rotation and less knee flexion at release (Murray et al., 2001), a more upright trunk as fatigue approaches (Escamilla et al., 2007), and selective strength loss in shoulder internal rotation, flexion and adduction after ~99 pitches (Mullaney et al., 2005). For the 43 starters classified as early faders across 2023–2026 (`outputs/starter_fatigue_profiles.csv`):
 
 | Layer | Content |
 |---|---|
-| Data | Late velo drop beyond −0.80 mph (bottom 20%), shrunk toward the league mean by reliability |
+| Data | Shrunk late velo drop beyond −0.77 mph (bottom 20%) |
 | Finding | The fade repeats year to year (`CONFIRMED`) |
 | Biomechanics | Loss of power transfer and shoulder rotator fatigue late in outings (`INTERPRETATION`) |
 | Training | Repeat-effort capacity: high-intent throwing blocks with short rest building toward 90–100 pitches, shoulder rotator strength-endurance, lower-body power maintained in-season (`INTERPRETATION`) |
-| Monitoring | Simulated-game velo decay test (first 15 vs last 15 fastballs) and pre/post force-plate CMJ; in season, live velo against the pitcher's own curve |
+| Monitoring | Simulated-game velo decay test (first 15 vs last 15 fastballs) and pre/post force-plate CMJ; in season, track the fade against his own profile |
 
-Before acting on any name, check medical history. Several extreme profiles had injuries (see `data/injury_exclusions.csv`), and a fade can be an early injury signal rather than a conditioning problem.
+**Medical check first.** Most of the strongest early faders had arm or shoulder injuries in the study window: Ober, Gilbert, Springs, Bibee, Ryan, Bradish, Irvin and Morton (`data/injury_exclusions.csv`, with sources). A persistent fade can be an injury signal, not a conditioning problem.
 
 ### Data and filters
 
-- Statcast pitch-level data, **regular season only** (`game_type == "R"`): 2025 (712,528 pitches) and 2026 (716,792 pitches). `python src/pull_data.py`
-- Starter = first pitcher of each team in each game. Pitch count = his running count in that game.
-- Primary fastball = FF or SI, whichever he throws more (FC if neither reaches 15%).
-- **Velo drop per start** = mean fastball velo on pitches 76–100 minus pitches 1–25 *of the same start* (at least 5 fastballs in each window). Pitcher-season qualifies with 8+ such starts.
+- Statcast pitch-level data, **regular season only** (`game_type == "R"`): 2023 (720,684 pitches), 2024 (711,899), 2025 (712,528) and 2026 (716,792). `python src/pull_data.py`
+- Starter = first pitcher of each team in each game. Primary fastball = FF or SI, whichever he throws more (FC if neither reaches 15%).
+- **Velo drop per start** = mean fastball velo on pitches 76–100 minus pitches 1–25 *of the same start* (at least 5 fastballs in each window). A pitcher-season qualifies with 8+ such starts.
 - **TTO3 penalty** = xwOBA 3rd time through minus 1st time through (at least 40 and 80 PA). xwOBA = Statcast expected wOBA on contact, actual wOBA value on walks, HBP and strikeouts.
-- **Injury and absence filter, applied before any analysis:** 1,277 of 9,718 starts excluded. Reasons: start followed by a 14+ day gap (318), return start after a 14+ day gap (316), season ended 14+ days early (227), opener or bulk pitcher with a median below 60 pitches (416). Ten pitcher-seasons with public injury reports are annotated in `data/injury_exclusions.csv` with sources.
-- **H4 live velo** = mean of the last 5 fastballs thrown *before* the PA started, minus the start's first-25 baseline. The model is OLS of PA xwOBA on live drop + pitch count + times through + platoon + pitcher fixed effects, with SEs clustered by game, on PAs after pitch 50.
+- **Injury and absence filter, applied before any analysis:** 2,673 of 19,436 starts excluded. Reasons: opener or bulk pitcher (809), return start after a 14+ day gap (695), start followed by a 14+ day gap (690), season ended 14+ days early (479). Sixteen pitcher-seasons with public injury reports are annotated in `data/injury_exclusions.csv` with sources.
+- **H4/H5 live velo** = mean of the last 5 fastballs thrown *before* the PA started, minus the start's first-25 baseline. Models use pitcher-season fixed effects, pitch count, times through, platoon, and SEs clustered by game, on PAs after pitch 50.
 
 ### Pre-registered thresholds
 
-`CONFIRMED` requires BH-adjusted p < 0.05 **and** a practical threshold. For stability tests: r ≥ 0.30 with the bootstrap CI above 0. For decision tests: a 5% or larger MAE reduction with the paired-bootstrap CI above 0. For H4: CI above 0.
+`CONFIRMED` requires a BH-adjusted p < 0.05 **and** a practical threshold. Stability tests: r ≥ 0.30 with the bootstrap CI above 0. Decision tests: a 5% or larger MAE reduction with the CI above 0. H4: CI above 0. H5: the unusual-minus-usual difference has a CI above 0.
 
 ### Sensitivity
 
-Reproduce with `python src/run_sensitivity.py` (writes `outputs/sensitivity.csv`). ✔ = `CONFIRMED`, ✘ = not confirmed.
+`python src/run_sensitivity.py` writes `outputs/sensitivity.csv`. ✔ = `CONFIRMED`, ✘ = not confirmed.
 
-| Setting | H1 n | H1 r | H2 r | H3a gain | H4 xwOBA/mph |
-|---|---|---|---|---|---|
-| Base | 52 | 0.74 ✔ | 0.05 ✘ | 31% ✔ | 0.0070 ✔ |
-| Min 5 late starts | 82 | 0.68 ✔ | 0.05 ✘ | 23% ✔ | 0.0070 ✔ |
-| Min 12 late starts | 34 | 0.72 ✔ | 0.05 ✘ | 30% ✘ | 0.0070 ✔ |
-| Baseline pitches 10–30 | 47 | 0.71 ✔ | 0.05 ✘ | 24% ✘ | 0.0056 ✘ |
-| Late window 81–105 | 31 | 0.73 ✔ | 0.05 ✘ | 29% ✘ | 0.0070 ✔ |
-| Min 60 TTO3 PA | 52 | 0.74 ✔ | 0.08 ✘ | 28% ✔ | 0.0070 ✔ |
-| Also drop starts within 30 days before a gap | 43 | 0.61 ✔ | 0.02 ✘ | 18% ✘ | 0.0064 ✔ |
-| Drop all annotated injury seasons | 45 | 0.56 ✔ | 0.03 ✘ | 13% ✘ | 0.0072 ✔ |
+| Setting | H1 pairs | H1 r | H2 r | H3a gain | H4 xwOBA/mph | H5 diff |
+|---|---|---|---|---|---|---|
+| Base | 176 | 0.79 ✔ | 0.07 ✘ | 39% ✔ | 0.0054 ✔ | −0.0005 ✘ |
+| Min 5 late starts | 256 | 0.74 ✔ | 0.07 ✘ | 34% ✔ | 0.0054 ✔ | −0.0005 ✘ |
+| Min 12 late starts | 118 | 0.82 ✔ | 0.07 ✘ | 41% ✔ | 0.0054 ✔ | +0.0007 ✘ |
+| Baseline pitches 10–30 | 158 | 0.76 ✔ | 0.07 ✘ | 35% ✔ | 0.0049 ✔ | +0.0009 ✘ |
+| Late window 81–105 | 113 | 0.77 ✔ | 0.07 ✘ | 34% ✔ | 0.0054 ✔ | +0.0003 ✘ |
+| Min 60 TTO3 PA | 176 | 0.79 ✔ | 0.11 ✘ | 40% ✔ | 0.0054 ✔ | −0.0005 ✘ |
+| Also drop starts within 30 days before a gap | 145 | 0.77 ✔ | 0.04 ✘ | 36% ✔ | 0.0054 ✔ | +0.0010 ✘ |
+| Drop all annotated injury seasons | 162 | 0.74 ✔ | 0.05 ✘ | 33% ✔ | 0.0054 ✔ | +0.0008 ✘ |
 
-- **H1 (the velo fade repeats) and H2 (the TTO3 split does not) hold in all 8 settings.** These are the robust findings.
-- **H3a:** the starter's own profile beats the league rule in all 8 settings (13–31% lower error), but the gain is confirmed in only 3 of 8. With smaller samples the bootstrap interval touches zero. Read it as "consistently better, size uncertain."
-- The stability shrinks (0.74 → 0.56) when injury seasons are removed, so part of the year-to-year signal comes from pitchers with injury histories.
-- **H4 is the weakest finding:** with a baseline of pitches 10–30 it is no longer significant after correction.
+**H1, H3a and H4 are confirmed in all 8 settings; H2 and H5 in none.** Removing the injury seasons lowers the stability only slightly (0.79 → 0.74), so the result is not driven by injured pitchers.
 
 ### Limitations
 
 - Survivorship: managers pull tired-looking starters, so the late window only sees starts where the pitcher was allowed to continue. Velo fades and their cost are probably understated.
-- H4 is associational. Pitcher fixed effects remove stable differences, but not same-day factors such as illness or weather.
-- Two seasons. n = 52 for the strictest stability test.
+- H4 is associational. Fixed effects remove stable pitcher-season differences, but not same-day factors such as illness or weather.
+- H5 is underpowered by design at this sample size.
 - The training plan is not tested here.
 
-### Development notes (transparency)
+### Version history (transparency)
 
-- An internal first version of H4 measured live velo *including* the pitch that ended the PA. That inflated the effect to +0.016 xwOBA per mph. The published version uses only pitches thrown before the PA started (+0.007).
-- An internal first version inverted the Spearman-Brown formula incorrectly for per-start reliability. Fixed before publication.
+- **v1 (not published):** 2025→2026 only (52 starters). It recommended comparing live velo with each pitcher's own curve without testing it. In that version, H3a was confirmed in only 3 of 8 sensitivity settings.
+- **v2 (this version):** added 2023 and 2024 (three season pairs) and added H5 to test the own-curve rule. H5 was inconclusive, so the recommendation was narrowed. The 2025→2026 result alone replicates (r = 0.74; H3a gain 31%).
+- Fixed before publication: a first H4 draft measured live velo *including* the pitch that ended the PA, which inflated the effect; and the Spearman-Brown inversion for per-start reliability.
 
 ### Reproduce
 
 ```bash
 pip install -r requirements.txt
-python src/pull_data.py          # ~15 min, writes data/statcast_2025/2026.csv.gz
-python tests/test_synthetic.py   # known-answer tests in both directions (8 PASS)
+python src/pull_data.py          # ~30 min, writes data/statcast_2023..2026.csv.gz
+python tests/test_synthetic.py   # known-answer tests in three scenarios (10 PASS)
 python src/run_analysis.py       # outputs/results.json and tables
-python src/run_sensitivity.py    # outputs/sensitivity.csv (~2 min)
+python src/run_sensitivity.py    # outputs/sensitivity.csv
 python src/make_figures.py       # figures/
 ```
 
-The synthetic tests build fake seasons where the fatigue profile **does** repeat and velo **does** cost xwOBA (H1, H3a and H4 must be confirmed), and fake seasons where it does not (they must not be). All 8 checks pass.
+The synthetic tests build seasons where (1) the fade repeats and raw velo loss costs xwOBA, (2) nothing repeats, and (3) only the unusual part of the fade costs xwOBA. Each test must come out the way the simulated truth says. Test 3 only requires the right direction, which documents the power limit of H5.
 
 ### References
 
@@ -136,70 +145,70 @@ The synthetic tests build fake seasons where the fatigue profile **does** repeat
 ### Titular
 
 **La caída de velocidad de un abridor dentro del juego es un rasgo personal estable. Su split de la tercera vuelta al lineup no lo es.**
-En 52 abridores de MLB, la caída de velocidad de la recta al final de la salida en 2025 predijo la de 2026 (r = 0.74). El perfil propio de 2025 de cada abridor redujo el error de predicción de 2026 en un 31% frente a la regla promedio de la liga (mejor en las 8 configuraciones de sensibilidad, pero confirmado solo en 3). La penalización de xwOBA en la tercera vuelta al lineup (TTO3), el split en el que se apoyan muchas decisiones de sacar al abridor, no se repitió (r = 0.05). Usar el split TTO3 propio de cada pitcher empeoró las predicciones en un 35% frente al promedio de la liga.
+En tres pares de temporadas (2023→24, 2024→25 y 2025→26; 176 pares y 99 abridores de MLB), la caída de velocidad de la recta al final de la salida se repitió de un año a otro (r = 0.79), y cada par por separado dio entre 0.74 y 0.83. Usar el perfil propio de cada abridor redujo el error de predicción de la temporada siguiente en un **39%** frente a la regla promedio de la liga. La penalización de xwOBA en la tercera vuelta al lineup (TTO3) no se repitió (r = 0.07, 306 pares). Usar el split TTO3 propio de cada pitcher empeoró las predicciones en un 32% frente al promedio de la liga.
 
-**Regla de decisión:** sacar al abridor según la referencia de la liga por vuelta al lineup más la **velocidad en vivo comparada con la curva esperada de ese mismo pitcher**. No usar splits TTO3 individuales.
+**Regla de decisión:**
+- **No** usar splits TTO3 por pitcher para decidir cuándo sacar al abridor. Usar el patrón de la liga por vuelta al lineup.
+- **Sí** usar el perfil de caída propio de cada abridor para planificar: hasta dónde puede llegar antes de perder velocidad, la cobertura del bullpen y el trabajo de offseason.
+- **Dentro del juego,** tratar la velocidad perdida frente a los primeros 25 lanzamientos de la misma salida como una señal de alerta. Cada mph perdida vino con +0.005 de xwOBA: es real, pero pequeño.
 
 | Prueba | Resultado | Etiqueta |
 |---|---|---|
-| H1 · La caída tardía de velocidad se repite 2025→2026 | r = 0.74 (IC 95% 0.56–0.85), n = 52 | `CONFIRMED` |
-| H2 · La penalización TTO3 se repite 2025→2026 | r = 0.05 (IC 95% −0.15–0.24), n = 101 | No confirmado |
-| H3a · El perfil propio de 2025 predice la caída de 2026 mejor que la regla de la liga | MAE 0.31 vs 0.44 mph (−31%, IC −7% a −49%) | `CONFIRMED` en la especificación base (robustez moderada) |
-| H3b · El split TTO3 propio de 2025 predice el de 2026 mejor que la regla de la liga | MAE 0.050 vs 0.037 (35% peor) | No confirmado |
-| H3c · El perfil de velocidad de 2025 predice el split TTO3 de 2026 | 2% peor que la regla de la liga | No confirmado |
-| H4 · La caída de velocidad en vivo vino con peor contacto, en el mismo pitcher | +0.007 xwOBA por mph perdida (IC 0.002–0.012), 42,033 PA | `CONFIRMED` (pequeño y frágil; ver sensibilidad) |
+| H1 · La caída tardía de velocidad se repite de un año a otro | r = 0.79 (IC 95% 0.71–0.84); 176 pares, 99 abridores | `CONFIRMED` |
+| H2 · La penalización TTO3 se repite de un año a otro | r = 0.07 (IC 95% −0.03–0.17); 306 pares, 162 abridores | No confirmado |
+| H3a · El perfil propio predice la caída del año siguiente mejor que la regla de la liga | MAE 0.30 vs 0.50 mph (−39%, IC −28% a −48%) | `CONFIRMED` |
+| H3b · El split TTO3 propio predice el del año siguiente mejor que la regla de la liga | 32% peor (IC 18% a 48% peor) | No confirmado |
+| H3c · El perfil de caída predice el split TTO3 del año siguiente | 0.8% peor que la regla de la liga | No confirmado |
+| H4 · La caída de velocidad en vivo vino con peor contacto, en el mismo pitcher-temporada | +0.0054 xwOBA por mph perdida (IC 0.0030–0.0077); 159,938 PA | `CONFIRMED` (pequeño) |
+| H5 · Una caída *inusual* para ese pitcher cuesta más que su caída *habitual* | Diferencia −0.0005 xwOBA/mph (IC −0.022 a +0.021) | No concluyente (falta de poder estadístico) |
 
-Todos los p-valores están ajustados por Benjamini-Hochberg en las 8 pruebas.
+Todos los p-valores están ajustados por Benjamini-Hochberg en las 9 pruebas. Los intervalos de bootstrap remuestrean pitchers completos, porque un abridor puede aparecer en varios pares de temporadas.
 
-Los grupos del gráfico 2 se definieron **solo con datos de 2025** (20% inferior y superior de caída). En 2026 siguieron separados por **1.1 mph** al final de la salida: los que se apagan −0.92 mph, los típicos −0.34 mph y los que aguantan +0.13 mph.
+Los grupos definidos **solo con datos de 2025** (20% inferior y superior de caída) siguieron separados por **1.1 mph** al final de las salidas de 2026: los que se apagan −0.92 mph, los típicos −0.34 mph y los que aguantan +0.13 mph.
 
 ### Pregunta de decisión
 
-¿Debe un club usar el perfil de fatiga de 2025 de cada abridor para decidir cuándo sacarlo en 2026, o la regla promedio de la liga?
+¿Debe un club usar el perfil de fatiga propio de cada abridor para planificar y decidir cuándo sacarlo, o la regla promedio de la liga?
 
 ### Qué significa para un front office
 
-1. **Dejar de usar splits TTO3 por pitcher.** Su confiabilidad dentro de una misma temporada (mitad contra mitad) es 0.04, es decir, casi puro ruido. El patrón de la liga sí es real (xwOBA 2026: .302 → .319 → .333 en la 1ª, 2ª y 3ª vuelta), pero es un efecto de liga, no un rasgo de cada pitcher. Esto coincide con Brill, Deshpande y Wyner (2023), que encontraron que el rendimiento del pitcher baja de forma continua durante el juego en lugar de dar un salto en la tercera vuelta.
-2. **Usar la curva de velocidad propia de cada abridor como su "normal".** Una caída de −0.9 mph es normal para alguien que se apaga temprano y es una alerta para alguien que aguanta. El perfil es estable (confiabilidad 0.84) y alcanza ~0.89 tras unas 23 salidas que lleguen a 76+ lanzamientos.
-3. **Tratar la velocidad en vivo como una señal, no como un gatillo automático.** Cada mph perdida (medida antes de empezar el turno) vino con +0.007 de xwOBA en el mismo pitcher. Es un efecto real pero modesto: perder 2 mph equivale a cerca de la mitad de la penalización TTO3 de la liga (~.030).
-4. **Lo que esto NO muestra:** que los que se apagan temprano reciban más castigo en la tercera vuelta. La caída de velocidad de 2025 no predijo el split TTO3 de 2026 (H3c). Ese resultado es demasiado ruidoso a nivel de pitcher para predecirlo con cualquier variable.
+1. **Dejar de usar splits TTO3 por pitcher.** Su confiabilidad dentro de una misma temporada es de 0.04 a 0.21, así que son casi todo ruido. El patrón de la liga sí es real (xwOBA de ~.302–.310 en la primera vuelta y de ~.330–.342 en la tercera, 2023–2026), pero es un efecto de liga, no un rasgo de cada pitcher. Esto coincide con Brill, Deshpande y Wyner (2023), que encontraron que el rendimiento del pitcher baja de forma continua durante el juego en lugar de dar un salto en la tercera vuelta.
+2. **La caída de velocidad es un rasgo con el que se puede planificar.** Su confiabilidad dentro de una temporada es de 0.84 a 0.92. Tras unas 23 salidas que lleguen a 76+ lanzamientos, el perfil ajustado del abridor alcanza ~0.89 de confiabilidad, y predice la caída del año siguiente un 39% mejor que el promedio de la liga.
+3. **La velocidad en vivo es una señal, no un gatillo automático.** Cada mph perdida (medida antes de empezar el turno, frente a los primeros 25 lanzamientos de la misma salida) vino con +0.0054 de xwOBA en el mismo pitcher-temporada. Perder 2 mph equivale a cerca de un tercio de la penalización TTO3 de la liga.
+4. **Lo que esto NO muestra:**
+   - que los que se apagan temprano reciban más castigo en la tercera vuelta (H3c);
+   - que una caída *habitual* para un pitcher no cueste nada mientras que una *inusual* sí (H5). La regla suena lógica, pero estos datos no pueden separar las dos cosas.
 
-### Línea de comparación (regla de la liga)
+### H5: por qué no es concluyente (y no es un resultado negativo)
 
-Sin información individual, la mejor estimación para cualquier abridor es el promedio de la liga: una caída de −0.37 a −0.39 mph entre los lanzamientos 1–25 y 76–100, más el patrón de la liga por vuelta al lineup. Cada modelo se compara contra esa regla con validación cruzada dejando fuera un pitcher a la vez.
+H5 separa cada caída en vivo en la parte que el pitcher **suele** tener a ese conteo (su curva de la temporada anterior) y el resto **inusual**, y compara el costo en xwOBA por mph de cada parte. La parte inusual tuvo un costo claro (+0.0049, IC 0.0018–0.0080). El costo de la parte habitual puede estar en cualquier punto entre −0.016 y +0.027, así que la comparación queda abierta.
+
+La prueba sintética de poder explica por qué: incluso cuando en la simulación solo cuesta la parte inusual, la prueba apunta en la dirección correcta pero no alcanza significancia con este tamaño de muestra. **Comparar la velocidad en vivo con la curva propia del pitcher queda como `INTERPRETATION`.** Para probarlo hacen falta datos de seguimiento de lanzamientos en las prácticas o más temporadas.
 
 ### Aplicación: plan de offseason para los que se apagan temprano
 
-`INTERPRETATION`, no probado en este repo.
+`INTERPRETATION`, no probado en este repo. Para los 43 abridores clasificados como "early fade" en 2023–2026 (caída ajustada mayor de −0.77 mph):
 
-Los estudios de laboratorio asocian la pérdida de velocidad al final del juego con cambios en la mecánica: menos rotación externa del hombro y menos flexión de rodilla al soltar (Murray et al., 2001), un tronco más vertical al acercarse la fatiga (Escamilla et al., 2007) y una pérdida selectiva de fuerza en rotación interna, flexión y aducción del hombro tras ~99 lanzamientos (Mullaney et al., 2005). Para los 29 abridores clasificados como "early fade" (`outputs/starter_fatigue_profiles_2025_2026.csv`):
+- **Biomecánica:** los estudios de laboratorio asocian la pérdida de velocidad al final del juego con menos rotación externa del hombro y menos flexión de rodilla al soltar (Murray et al., 2001), un tronco más vertical al acercarse la fatiga (Escamilla et al., 2007) y una pérdida selectiva de fuerza en rotación interna, flexión y aducción del hombro tras ~99 lanzamientos (Mullaney et al., 2005).
+- **Entrenamiento:** capacidad de esfuerzo repetido, con bloques de lanzamiento de alta intención y descanso corto progresando hacia 90–100 lanzamientos, fuerza-resistencia de los rotadores del hombro y mantenimiento de la potencia del tren inferior durante la temporada.
+- **Monitoreo:** test de caída de velocidad en juego simulado (primeras 15 vs últimas 15 rectas) y CMJ en force plates antes y después; en temporada, seguir la caída frente a su perfil propio.
 
-| Capa | Contenido |
-|---|---|
-| Datos | Caída tardía mayor de −0.80 mph (20% inferior), ajustada hacia el promedio de la liga según la confiabilidad |
-| Hallazgo | La caída se repite de un año a otro (`CONFIRMED`) |
-| Biomecánica | Pérdida de transferencia de potencia y fatiga de los rotadores del hombro al final de la salida (`INTERPRETATION`) |
-| Entrenamiento | Capacidad de esfuerzo repetido: bloques de lanzamiento de alta intención con descanso corto progresando hacia 90–100 lanzamientos, fuerza-resistencia de los rotadores del hombro y mantenimiento de la potencia del tren inferior durante la temporada (`INTERPRETATION`) |
-| Monitoreo | Test de caída de velocidad en juego simulado (primeras 15 vs últimas 15 rectas) y CMJ en force plates antes y después; en temporada, velocidad en vivo comparada con la curva propia |
-
-Antes de actuar sobre cualquier nombre, hay que revisar el historial médico. Varios perfiles extremos tuvieron lesiones (ver `data/injury_exclusions.csv`), y una caída puede ser una señal temprana de lesión y no un problema de acondicionamiento.
+**Primero, revisión médica.** La mayoría de los que más se apagan tuvieron lesiones de brazo u hombro en el periodo estudiado: Ober, Gilbert, Springs, Bibee, Ryan, Bradish, Irvin y Morton (con fuentes en `data/injury_exclusions.csv`). Una caída persistente puede ser una señal de lesión y no un problema de acondicionamiento.
 
 ### Datos y filtros
 
-- Datos de Statcast por lanzamiento, **solo temporada regular**: 2025 (712,528 lanzamientos) y 2026 (716,792).
-- Abridor = primer pitcher de cada equipo en cada juego.
-- **Caída por salida** = velocidad media de la recta en los lanzamientos 76–100 menos la de los lanzamientos 1–25 de la misma salida.
-- **Filtro de lesiones y ausencias, aplicado antes del análisis:** se excluyeron 1,277 de 9,718 salidas (huecos de 14+ días, regresos, temporadas terminadas antes de tiempo, openers). Diez temporadas con lesiones públicas quedaron anotadas con su fuente.
+- Datos de Statcast por lanzamiento, **solo temporada regular**, de 2023 a 2026 (unos 2.86 millones de lanzamientos).
+- **Filtro de lesiones y ausencias, aplicado antes del análisis:** se excluyeron 2,673 de 19,436 salidas (openers, regresos y salidas pegadas a huecos de 14+ días, y temporadas terminadas antes de tiempo). Dieciséis temporadas con lesiones públicas quedaron anotadas con su fuente.
 
-### Sensibilidad y limitaciones
+### Sensibilidad
 
-H1 (la caída se repite) y H2 (el split TTO3 no se repite) se mantienen en las 8 configuraciones (ver la tabla en inglés); son los hallazgos sólidos. H3a es mejor que la regla de la liga en las 8 (13–31% menos error), pero solo queda confirmado en 3: con muestras más pequeñas el intervalo toca el cero. La estabilidad baja de 0.74 a 0.56 al quitar las temporadas con lesión, así que parte de la señal viene de pitchers con historial de lesión. **H4 es el hallazgo más débil:** con una ventana base de lanzamientos 10–30 deja de ser significativo tras la corrección.
+Ver la tabla completa en la sección en inglés. **H1, H3a y H4 quedan confirmados en las 8 configuraciones; H2 y H5 en ninguna.** Al quitar las temporadas con lesión anotada, la estabilidad baja muy poco (0.79 → 0.74), así que el resultado no depende de los pitchers lesionados.
 
-Limitaciones: survivorship (los managers sacan a los abridores que se ven cansados, así que la caída real probablemente se subestima), H4 es una asociación y no un efecto causal, solo hay dos temporadas y el plan de entrenamiento no se prueba aquí.
+### Historial de versiones (transparencia)
 
-### Notas de desarrollo (transparencia)
-
-Una primera versión interna de H4 incluía el lanzamiento que terminaba el turno dentro de la velocidad "en vivo", y eso inflaba el efecto a +0.016. La versión publicada usa solo los lanzamientos anteriores al turno (+0.007). También se corrigió antes de publicar la inversión de la fórmula de Spearman-Brown.
+- **v1 (no publicada):** solo 2025→2026 (52 abridores). Recomendaba comparar la velocidad en vivo con la curva propia de cada pitcher sin haberlo probado, y H3a solo quedaba confirmado en 3 de 8 configuraciones de sensibilidad.
+- **v2 (esta versión):** se agregaron 2023 y 2024 (tres pares de temporadas) y la prueba H5 para la regla de la curva propia. H5 no fue concluyente, así que la recomendación se acotó. El par 2025→2026 por separado se replica (r = 0.74; mejora de H3a del 31%).
+- Corregido antes de publicar: un primer borrador de H4 incluía el lanzamiento que terminaba el turno dentro de la velocidad en vivo, lo que inflaba el efecto; y la inversión de la fórmula de Spearman-Brown.
 
 ---
 

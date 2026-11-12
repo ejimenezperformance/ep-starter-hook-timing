@@ -221,12 +221,26 @@ def spearman_brown(r_half: float) -> float:
     return 2 * r_half / (1 + r_half)
 
 
-def boot_r(x: np.ndarray, y: np.ndarray, n: int = 5000, seed: int = 7):
+def _cluster_index(groups: np.ndarray | None, n: int, n_boot: int, rng) -> list[np.ndarray]:
+    """Bootstrap row indices; resamples whole pitchers when groups are given
+    (a pitcher can appear in several season pairs)."""
+    if groups is None:
+        return list(rng.integers(0, n, (n_boot, n)))
+    groups = np.asarray(groups)
+    uniq = np.unique(groups)
+    rows = {g: np.flatnonzero(groups == g) for g in uniq}
+    out = []
+    for _ in range(n_boot):
+        pick = rng.choice(uniq, len(uniq), replace=True)
+        out.append(np.concatenate([rows[g] for g in pick]))
+    return out
+
+
+def boot_r(x, y, n: int = 5000, seed: int = 7, groups=None):
     rng = np.random.default_rng(seed)
     x, y = np.asarray(x, float), np.asarray(y, float)
     r = np.corrcoef(x, y)[0, 1]
-    idx = rng.integers(0, len(x), (n, len(x)))
-    bs = np.array([np.corrcoef(x[i], y[i])[0, 1] for i in idx])
+    bs = np.array([np.corrcoef(x[i], y[i])[0, 1] for i in _cluster_index(groups, len(x), n, rng)])
     return r, np.nanpercentile(bs, 2.5), np.nanpercentile(bs, 97.5)
 
 
@@ -243,7 +257,7 @@ class DecisionResult:
 def loo_decision_test(prev_feature: dict[str, np.ndarray], prev_target: np.ndarray,
                       reliability_halves: tuple[np.ndarray, np.ndarray],
                       next_target: np.ndarray, target: str,
-                      n_boot: int = 5000, seed: int = 11) -> DecisionResult:
+                      n_boot: int = 5000, seed: int = 11, groups=None) -> DecisionResult:
     """Leave-one-pitcher-out prediction of next-season target.
 
     Models:
@@ -258,8 +272,9 @@ def loo_decision_test(prev_feature: dict[str, np.ndarray], prev_target: np.ndarr
     preds = {"league": np.empty(n), "individual": np.empty(n), "shrunk": np.empty(n)}
     for f in prev_feature:
         preds[f"ols_{f}"] = np.empty(n)
+    gr = np.arange(n) if groups is None else np.asarray(groups)
     for i in range(n):
-        o = np.arange(n) != i
+        o = gr != gr[i]   # leave out every row of this pitcher
         lg = prev_target[o].mean()
         rel = max(0.0, spearman_brown(np.corrcoef(h0[o], h1[o])[0, 1]))
         preds["league"][i] = lg
@@ -271,13 +286,13 @@ def loo_decision_test(prev_feature: dict[str, np.ndarray], prev_target: np.ndarr
     err = {k: np.abs(v - next_target) for k, v in preds.items()}
     mae = {k: float(e.mean()) for k, e in err.items()}
     rng = np.random.default_rng(seed)
-    idx = rng.integers(0, n, (n_boot, n))
+    idx = _cluster_index(groups, n, n_boot, rng)
     gain, ci, p = {}, {}, {}
     base = err["league"]
     for k, e in err.items():
         if k == "league":
             continue
-        bs = 1 - e[idx].mean(1) / base[idx].mean(1)
+        bs = np.array([1 - e[i].mean() / base[i].mean() for i in idx])
         gain[k] = 1 - mae[k] / mae["league"]
         ci[k] = (float(np.percentile(bs, 2.5)), float(np.percentile(bs, 97.5)))
         p[k] = float((bs <= 0).mean())

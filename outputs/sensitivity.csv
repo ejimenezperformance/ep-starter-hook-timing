@@ -1,9 +1,9 @@
-setting,H1_n,H1_r,H1_conf,H2_n,H2_r,H3_gain_shrunk,H3_conf,H4_xwoba_mph,H4_conf
-base,52,0.74,True,101,0.05,0.31,True,0.007,True
-min_late_starts=5,82,0.68,True,101,0.05,0.23,True,0.007,True
-min_late_starts=12,34,0.72,True,101,0.05,0.3,False,0.007,True
-early=10-30,47,0.71,True,101,0.05,0.24,False,0.0056,False
-late=81-105,31,0.73,True,101,0.05,0.29,False,0.007,True
-min_tto3_pa=60,52,0.74,True,81,0.08,0.28,True,0.007,True
-pre_gap_window=30d,43,0.61,True,86,0.02,0.18,False,0.0064,True
-exclude annotated injury seasons,45,0.56,True,94,0.03,0.13,False,0.0072,True
+setting,H1_n,H1_r,H1_conf,H2_n,H2_r,H3_gain_shrunk,H3_conf,H4_xwoba_mph,H4_conf,H5_diff,H5_conf
+base,176,0.79,True,306,0.07,0.39,True,0.0054,True,-0.0005,False
+min_late_starts=5,256,0.74,True,306,0.07,0.34,True,0.0054,True,-0.0005,False
+min_late_starts=12,118,0.82,True,306,0.07,0.41,True,0.0054,True,0.0007,False
+early=10-30,158,0.76,True,306,0.07,0.35,True,0.0049,True,0.0009,False
+late=81-105,113,0.77,True,306,0.07,0.34,True,0.0054,True,0.0003,False
+min_tto3_pa=60,176,0.79,True,246,0.11,0.4,True,0.0054,True,-0.0005,False
+pre_gap_window=30d,145,0.77,True,260,0.04,0.36,True,0.0054,True,0.001,False
+exclude annotated injury seasons,162,0.74,True,291,0.05,0.33,True,0.0054,True,0.0008,False

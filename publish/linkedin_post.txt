@@ -1,40 +1,40 @@
-⚾ When should you pull a starter? His velocity knows. His third-time-through split doesn't.
+⚾ When should you pull a starter? His velocity fade is a trait. His third-time-through split is noise.
 
-I tested 52 MLB starters with Statcast 2025–2026 (regular season, injury filter applied first):
+I tested MLB starters with Statcast 2023–2026 (regular season, injury filter applied first), across three season pairs:
 
-• The late-start fastball velo drop repeats year to year: r = 0.74 (95% CI 0.56–0.85).
-• The 3rd-time-through-the-order xwOBA penalty does not: r = 0.05. Inside a single season it is almost pure noise (reliability 0.04).
-• Using each starter's own 2025 velo profile cut the 2026 prediction error by 31% vs. the league-average rule (better in all 8 sensitivity checks, statistically confirmed in 3).
-• Using his own TTO3 split made predictions 35% worse.
-• Groups set only with 2025 data still separated by 1.1 mph in 2026: early faders −0.92 mph, velo holders +0.13 mph.
-• In the same pitcher, each mph lost before a PA came with +0.007 xwOBA: real, but modest and sensitive to the baseline window.
+• The late-start fastball velo drop repeats year to year: r = 0.79 (176 pairs, 99 starters). Each pair alone: 0.74–0.83.
+• The 3rd-time-through-the-order xwOBA penalty does not: r = 0.07 (306 pairs).
+• A starter's own fade profile predicted next season's fade 39% better than the league-average rule.
+• Using his own TTO3 split made predictions 32% worse.
+• In the same pitcher-season, each mph lost before a PA came with +0.005 xwOBA: real, but small.
+• All of this held in 8 of 8 sensitivity checks, including dropping every injury season.
 
-Decision rule: league times-through baseline + live velo against the pitcher's own curve. Not pitcher-specific TTO splits.
+What I could NOT prove: that a drop that is "normal for him" is harmless while an unusual one is costly. The test was underpowered, so that stays as interpretation.
 
-What it does NOT show: that early faders get hit harder the third time through.
+Decision rule: drop pitcher-specific TTO splits, use the league pattern, and plan depth, bullpen and offseason work around each starter's own fade.
 
-Leave-one-out CV, paired bootstrap, Benjamini-Hochberg correction, known-answer tests in both directions. Code and data pipeline are public.
+Leave-one-pitcher-out CV, pitcher-clustered bootstrap, Benjamini-Hochberg correction, known-answer tests in three scenarios. Code is public.
 
 🔗 github.com/ejimenezperformance/ep-starter-hook-timing
 
 —
 
-⚾ ¿Cuándo sacar a un abridor? Su velocidad lo dice. Su split de la tercera vuelta, no.
+⚾ ¿Cuándo sacar a un abridor? Su caída de velocidad es un rasgo. Su split de la tercera vuelta es ruido.
 
-Analicé 52 abridores de MLB con Statcast 2025–2026 (temporada regular, con el filtro de lesiones aplicado primero):
+Analicé abridores de MLB con Statcast 2023–2026 (temporada regular, con el filtro de lesiones aplicado primero) en tres pares de temporadas:
 
-• La caída de velocidad de la recta al final de la salida se repite de un año a otro: r = 0.74 (IC 95% 0.56–0.85).
-• La penalización de xwOBA en la tercera vuelta al lineup no se repite: r = 0.05. Dentro de una misma temporada es casi puro ruido (confiabilidad 0.04).
-• El perfil de velocidad propio de 2025 redujo el error de predicción de 2026 en un 31% frente a la regla de la liga (mejor en las 8 pruebas de sensibilidad, confirmado estadísticamente en 3).
-• Usar el split TTO3 propio empeoró las predicciones en un 35%.
-• Los grupos definidos solo con datos de 2025 siguieron separados por 1.1 mph en 2026: los que se apagan −0.92 mph, los que aguantan +0.13 mph.
-• En el mismo pitcher, cada mph perdida antes del turno vino con +0.007 de xwOBA: es real, pero modesto y sensible a la ventana base.
+• La caída de velocidad de la recta al final de la salida se repite de un año a otro: r = 0.79 (176 pares, 99 abridores). Cada par por separado: 0.74–0.83.
+• La penalización de xwOBA en la tercera vuelta al lineup no se repite: r = 0.07 (306 pares).
+• El perfil de caída propio predijo la del año siguiente un 39% mejor que la regla de la liga.
+• Usar el split TTO3 propio empeoró las predicciones en un 32%.
+• En el mismo pitcher-temporada, cada mph perdida antes del turno vino con +0.005 de xwOBA: es real, pero pequeño.
+• Todo esto se mantuvo en 8 de 8 pruebas de sensibilidad, incluso quitando todas las temporadas con lesión.
 
-Regla de decisión: la referencia de la liga por vuelta al lineup + la velocidad en vivo comparada con la curva propia del pitcher. No los splits TTO individuales.
+Lo que NO pude probar: que una caída "normal para él" no cueste nada mientras que una inusual sí. La prueba no tuvo poder suficiente, así que queda como interpretación.
 
-Lo que NO muestra: que los que se apagan temprano reciban más castigo en la tercera vuelta.
+Regla de decisión: dejar los splits TTO por pitcher, usar el patrón de la liga y planificar la profundidad, el bullpen y el trabajo de offseason según la caída propia de cada abridor.
 
-Validación cruzada dejando uno fuera, bootstrap pareado, corrección de Benjamini-Hochberg y pruebas con respuesta conocida en las dos direcciones. El código es público.
+Validación cruzada dejando fuera a cada pitcher, bootstrap agrupado por pitcher, corrección de Benjamini-Hochberg y pruebas con respuesta conocida en tres escenarios. El código es público.
 
 🔗 github.com/ejimenezperformance/ep-starter-hook-timing
 

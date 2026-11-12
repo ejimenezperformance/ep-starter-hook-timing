@@ -36,7 +36,7 @@ def run_setting(overrides: dict, exclude_annotated: bool) -> dict:
         with tempfile.TemporaryDirectory() as tmp:
             tmp = Path(tmp)
             (tmp / "data").mkdir()
-            for y in (ra.PREV, ra.NEXT):
+            for y in ra.available_seasons(ROOT):
                 (tmp / "data" / f"statcast_{y}.csv.gz").symlink_to(
                     (ROOT / "data" / f"statcast_{y}.csv.gz").resolve())
             m = ht.load_manual_exclusions(ROOT)
@@ -53,16 +53,18 @@ def main() -> None:
     rows = []
     for label, kw, excl in SETTINGS:
         r = run_setting(kw, excl)
-        h3 = r["H3_decision"]["velo_drop_2026"]
+        h3 = r["H3_decision"]["velo_drop_next"]
         rows.append({
             "setting": label,
-            "H1_n": r["H1_velo_drop"]["n"], "H1_r": round(r["H1_velo_drop"]["r_2025_2026"], 2),
+            "H1_n": r["H1_velo_drop"]["n_pairs"], "H1_r": round(r["H1_velo_drop"]["r_pooled"], 2),
             "H1_conf": r["H1_velo_drop"]["confirmed"],
-            "H2_n": r["H2_tto3_penalty"]["n"], "H2_r": round(r["H2_tto3_penalty"]["r_2025_2026"], 2),
+            "H2_n": r["H2_tto3_penalty"]["n_pairs"], "H2_r": round(r["H2_tto3_penalty"]["r_pooled"], 2),
             "H3_gain_shrunk": round(h3["gain_vs_league"]["shrunk"], 2),
             "H3_conf": h3["confirmed"]["shrunk"],
             "H4_xwoba_mph": round(r["H4_live_velo"]["xwoba_per_mph_lost"], 4),
             "H4_conf": r["H4_live_velo"]["confirmed"],
+            "H5_diff": round(r["H5_own_curve"]["diff_unusual_minus_expected"], 4),
+            "H5_conf": r["H5_own_curve"]["confirmed"],
         })
         print(rows[-1])
     pd.DataFrame(rows).to_csv(ROOT / "outputs" / "sensitivity.csv", index=False, encoding="utf-8")

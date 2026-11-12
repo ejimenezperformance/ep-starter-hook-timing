@@ -40,56 +40,58 @@ def stability_figure(res: dict) -> None:
          "Results signal: 3rd-time-through xwOBA penalty\nSeñal de resultados: penalización 3ª vuelta"),
     ]
     for ax, d, col, color, r, title in panels:
-        x, y = d[f"{col}_25"], d[f"{col}_26"]
-        ax.scatter(x, y, s=34, color=color, alpha=0.75, edgecolor=BG, linewidth=1.2)
+        x, y = d[f"{col}_prev"], d[f"{col}_next"]
+        ax.scatter(x, y, s=28, color=color, alpha=0.7, edgecolor=BG, linewidth=1.0)
         b1, b0 = np.polyfit(x, y, 1)
         xs = np.linspace(x.min(), x.max(), 50)
         ax.plot(xs, b0 + b1 * xs, color=NAVY_TEXT, lw=2)
-        ax.set_xlabel("2025")
-        ax.set_ylabel("2026")
+        ax.set_xlabel("Season N / Temporada N")
+        ax.set_ylabel("Season N+1 / Temporada N+1")
         ax.set_title(title, fontsize=10.5, loc="left", fontweight="bold")
         verdict = "CONFIRMED: repeats" if r["confirmed"] else "Not confirmed: does not repeat"
         ax.text(0.03, 0.97,
-                f"r = {r['r_2025_2026']:.2f}  (95% CI {r['ci95'][0]:.2f} to {r['ci95'][1]:.2f})\n"
-                f"n = {r['n']} starters\n{verdict}",
+                f"r = {r['r_pooled']:.2f}  (95% CI {r['ci95'][0]:.2f} to {r['ci95'][1]:.2f})\n"
+                f"{r['n_pairs']} season pairs · {r['n_pitchers']} starters\n{verdict}",
                 transform=ax.transAxes, va="top", fontsize=9.5,
                 bbox=dict(boxstyle="round,pad=0.4", fc="white", ec=GRID))
     fig.suptitle("Which fatigue signal repeats year to year? / ¿Qué señal de fatiga se repite de un año a otro?",
                  x=0.01, ha="left", fontsize=12.5, fontweight="bold")
-    fig.text(0.01, 0.005, "Emerson Performance · Statcast 2025–2026 regular season · each dot = one starter",
-             fontsize=8, color=MUTED)
+    fig.text(0.01, 0.005, "Emerson Performance · Statcast 2023–2026 regular season · pairs 2023→24, 2024→25, "
+             "2025→26 · each dot = one starter in one pair", fontsize=8, color=MUTED)
     fig.tight_layout(rect=(0, 0.03, 1, 0.94))
     fig.savefig(FIG / "fig1_stability.png", dpi=180)
     plt.close(fig)
 
 
 def curve_figure(res: dict) -> None:
-    gc = pd.read_csv(OUT / "profile_curves_2026_by_2025_group.csv")
+    gc = pd.read_csv(OUT / "profile_curves_out_of_sample.csv")
+    info = res["profile_groups_out_of_sample"]
+    py, ny = info["shown_in"] - 1, info["shown_in"]
     fig, ax = plt.subplots(figsize=(8.6, 4.8))
-    styles = {"early_fade": (GOLD, "-", "Early fade (2025 bottom 20%)"),
+    styles = {"early_fade": (GOLD, "-", f"Early fade ({py} bottom 20%)"),
               "league_typical": (MUTED, "--", "League typical"),
-              "holds_velo": (NAVY, "-", "Holds velo (2025 top 20%)")}
+              "holds_velo": (NAVY, "-", f"Holds velo ({py} top 20%)")}
     labels = ["1-25", "26-50", "51-75", "76-100"]
     for g, (color, ls, name) in styles.items():
-        d = gc[gc["group_2025"] == g].set_index("pitch_bin").reindex(labels)
+        d = gc[gc["group_prev"] == g].set_index("pitch_bin").reindex(labels)
         x = np.arange(len(labels))
-        ax.plot(x, d["velo_vs_first25_2026"], color=color, lw=2, ls=ls, marker="o", ms=8,
+        ax.plot(x, d["velo_vs_first25_next"], color=color, lw=2, ls=ls, marker="o", ms=8,
                 markeredgecolor=BG, markeredgewidth=2)
         n = int(d["n_pitchers"].iloc[-1])
-        ax.text(x[-1] + 0.1, d["velo_vs_first25_2026"].iloc[-1],
-                f"{name}\n{d['velo_vs_first25_2026'].iloc[-1]:+.2f} mph · n={n}",
+        ax.text(x[-1] + 0.1, d["velo_vs_first25_next"].iloc[-1],
+                f"{name}\n{d['velo_vs_first25_next'].iloc[-1]:+.2f} mph · n={n}",
                 color=NAVY_TEXT, va="center", fontsize=9)
     ax.set_xticks(range(len(labels)), labels)
     ax.set_xlim(-0.3, len(labels) + 0.9)
     ax.axhline(0, color=MUTED, lw=1)
     ax.set_xlabel("Pitch count in the start / Conteo de lanzamientos")
-    ax.set_ylabel("2026 fastball velo vs. first 25 pitches (mph)")
+    ax.set_ylabel(f"{ny} fastball velo vs. first 25 pitches (mph)")
     gap = res["profile_groups_out_of_sample"]["gap_fade_vs_hold_mph"]
-    ax.set_title(f"Groups set on 2025 still separate in 2026: {gap:.1f} mph gap late in the start\n"
-                 f"Grupos de 2025 se siguen separando en 2026: {gap:.1f} mph de diferencia",
+    ax.set_title(f"Groups set on {py} still separate in {ny}: {gap:.1f} mph gap late in the start\n"
+                 f"Grupos de {py} se siguen separando en {ny}: {gap:.1f} mph de diferencia",
                  loc="left", fontsize=11, fontweight="bold")
-    fig.text(0.01, 0.01, "Emerson Performance · Statcast 2026, starts reaching 76+ pitches · "
-             "out of sample: groups defined only with 2025 data", fontsize=8, color=MUTED)
+    fig.text(0.01, 0.01, f"Emerson Performance · Statcast {ny}, starts reaching 76+ pitches · "
+             f"out of sample: groups defined only with {py} data", fontsize=8, color=MUTED)
     fig.tight_layout(rect=(0, 0.03, 1, 1))
     fig.savefig(FIG / "fig2_profile_curves.png", dpi=180)
     plt.close(fig)

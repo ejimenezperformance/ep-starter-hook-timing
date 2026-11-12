@@ -1,5 +1,5 @@
 DESCRIPTION (<=350 chars):
-A starter's in-game velo fade repeats year to year (r=0.74, 52 MLB SP); his 3rd-time-through xwOBA split does not (r=0.05). Own 2025 velo profile cut 2026 error 31% vs league rule. Hook by live velo vs his own curve, not TTO splits. Statcast 2025-26, LOO CV, BH-corrected. EN/ES.
+A starter's in-game velo fade repeats year to year (r=0.79, 3 season pairs, 99 MLB SP); his 3rd-time-through xwOBA split does not (r=0.07). Own fade profile cut next-season error 39% vs league rule. Drop pitcher TTO splits; plan around the fade. Statcast 2023-26, LOO CV, BH-corrected. EN/ES.
 
 WEBSITE:
 https://ejimenezperformance.github.io
